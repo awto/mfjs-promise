@@ -1,0 +1,29 @@
+{
+  "name": "@mfjs/promise",
+  "version": "1.0.0",
+  "description": "direct style promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "promise",
+    "async",
+    "q"
+  ],
+  "author": "Vitaliy Akimov <vitaliy.akimov@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/awto/mfjs-promise.git"
+  },
+  "peerDependencies": {
+    "@mfjs/core": "1.0.x"
+  },
+  "devDependencies": {
+    "@mfjs/compiler": "^1.0.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^2.4.5",
+    "q": "^1.4.1"
+  }
+}
