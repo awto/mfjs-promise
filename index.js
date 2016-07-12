@@ -1,5 +1,5 @@
 'use strict';
-var M = require('@mfjs/core'), defs;
+var M = require('@mfjs/core'), defs, ctor;
 
 function isPromise(v) {
   if (v == null)
@@ -21,40 +21,33 @@ function coerce(v) {
   return pure(v);
 }
 
-function PromiseDefs() {}
-
-PromiseDefs.prototype = new M.MonadDict();
-PromiseDefs.prototype.pure = pure;
-PromiseDefs.prototype.raise = function(v) {
-  return defs.ctor(function(r, e) {
-    return e(v);
-  });
+defs = {
+  pure: pure,
+  coerce: coerce,
+  bind: function(a, f) {
+    return a.then(function(v) {
+      return f(v);
+    });
+  },
+  raise: function(v) {
+    return defs.ctor(function(r, e) {
+      return e(v);
+    });
+  },
+  handle: function(a, f) {
+    return a.then(null, function(e) { return f(e); });
+  },
+  run: function(f) { return f().done(); }
 };
-PromiseDefs.prototype.handle = function(a, f) {
-  return coerce(a).then(null, f);
-};
-PromiseDefs.prototype.bind = function(a, f) {
-  return coerce(a).then(f);
-};
-PromiseDefs.prototype.coerce = coerce;
-PromiseDefs.prototype.run = function(f) {
-  return coerce(f()).done();
-};
-PromiseDefs.prototype.reify = function(v) {
-  return v;
-};
-PromiseDefs.prototype.ctor = Promise;
 
 function PromiseWrap(inner) {
   this.inner = inner;
 }
 
-defs = M.addContext(M.wrap(M.withControlByToken(new PromiseDefs()), PromiseWrap));
-
-M.completePrototype(defs, PromiseWrap.prototype);
+defs = M.defaults(defs, {control:"token",wrap: PromiseWrap})
+defs.setCtor = function(ctor) {
+  return defs.ctor = ctor;
+}
 
 module.exports = defs;
 
-defs.setCtor = function(ctor) {
-  return defs.ctor = ctor;
-};

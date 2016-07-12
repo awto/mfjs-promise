@@ -28,8 +28,9 @@ describe('Q monad', function() {
       done = done.async();
     QM.run(function() {
       var result = 0, i;
-      for (i = 0; i < 10; i++)
+      for (i = 0; i < 10; i++) {
         result = M(addLater(result,i));
+      }
       expect(result).to.equal(45);
 		  done();
 	  });

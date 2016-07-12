@@ -18,10 +18,10 @@
     "url": "https://github.com/awto/mfjs-promise.git"
   },
   "peerDependencies": {
-    "@mfjs/core": "1.0.x"
+    "@mfjs/core": "~1.2.0"
   },
   "devDependencies": {
-    "@mfjs/compiler": "^1.0.0",
+    "@mfjs/compiler": "~1.1.0",
     "expect.js": "^0.3.1",
     "mocha": "^2.4.5",
     "q": "^1.4.1"
