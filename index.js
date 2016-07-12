@@ -36,8 +36,7 @@ defs = {
   },
   handle: function(a, f) {
     return a.then(null, function(e) { return f(e); });
-  },
-  run: function(f) { return f().done(); }
+  }
 };
 
 function PromiseWrap(inner) {
