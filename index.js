@@ -25,9 +25,7 @@ defs = {
   pure: pure,
   coerce: coerce,
   bind: function(a, f) {
-    return a.then(function(v) {
-      return f(v);
-    });
+    return a.then(f);
   },
   raise: function(v) {
     return defs.ctor(function(r, e) {
@@ -35,18 +33,21 @@ defs = {
     });
   },
   handle: function(a, f) {
-    return a.then(null, function(e) { return f(e); });
+    return a.then(null, f);
   }
 };
+
 
 function PromiseWrap(inner) {
   this.inner = inner;
 }
-
-defs = M.defaults(defs, {control:"token",wrap: PromiseWrap})
+defs = M.defaults(defs, {control:"token",wrap:PromiseWrap})
 defs.setCtor = function(ctor) {
   return defs.ctor = ctor;
 }
+
+if(typeof(Promise) !== "undefined")
+  defs.ctor = Promise
 
 module.exports = defs;
 
